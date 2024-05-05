@@ -25,18 +25,12 @@ bind-address: "*"
 ipv6: true
 
 # 规则模式：rule（规则） / global（全局代理）/ direct（全局直连）/ script (脚本)
-mode: rule
+# mode: rule
 
 # 设置日志输出级别 (默认级别：silent，即不输出任何内容，以避免因日志内容过大而导致程序内存溢出）。
 # 5 个级别：silent / error / warning / info / debug。级别越高日志输出量越大，越倾向于调试，若需要请自行开启。
 log-level: info
-# Meta 内核特性 https://wiki.metacubex.one/config/general
-# 统一延迟
-# 更换延迟计算方式,去除握手等额外延迟
-unified-delay: true
-# TCP 并发
-# 同时对所有ip进行连接，返回延迟最低的地址
-tcp-concurrent: true
+
 # Clash 的 RESTful API
 external-controller: '127.0.0.1:9090'
 
@@ -68,67 +62,16 @@ experimental:
 #   '*.clash.dev': 127.0.0.1
 #   'alpha.clash.dev': '::1'
 
-# 缓解移动设备耗电问题
-# https://github.com/vernesong/OpenClash/issues/2614
-keep-alive-interval: 1800
-
-# 全局客户端指纹
-global-client-fingerprint: random # 随机指纹
-
-# 缓存
-profile:
-  store-selected: true
-  store-fake-ip: true
-
-# 自动同步时间以防止时间不准导致无法正常联网
-ntp:
-  enable: true
-  # 是否同步至系统时间，需要 root/管理员权限
-  write-to-system: false
-  server: time.apple.com
-  port: 123
-  interval: 30
-
-# tun 模式
-tun:
-  enable: false  # enable 'true'
-  stack: system  # or 'gvisor'
-  dns-hijack:
-    - "any:53"
-    - "tcp://any:53"
-  auto-route: true
-  auto-detect-interface: true
-  
-dns:
-  enable: true # 是否启用dns false
-  ipv6: false
-  listen: 0.0.0.0:53
+#dns:
+  #enable: true # 是否启用dns false
+  #ipv6: false
+  #listen: 0.0.0.0:53
   #enhanced-mode: redir-host # 模式：redir-host或fake-ip
-  fake-ip-range: 20.0.0.1/18 #
-  fake-ip-filter: # fake ip 白名单列表，如果你不知道这个参数的作用，请勿修改
+  #fake-ip-range: 198.18.0.1/16 #
+  #fake-ip-filter: # fake ip 白名单列表，如果你不知道这个参数的作用，请勿修改
      #- '*.lan'
-     - '*'
-     - '+.lan'
-     - '+.local'
      #- localhost.ptlogin2.qq.com
-#nameserver:
-  default-nameserver:
-    - 223.5.5.5
-    - 119.29.29.29
-    - 114.114.114.114
-    - '[2402:4e00::]'
-    - '[2400:3200::1]'
-  nameserver:
-    - 'tls://8.8.4.4#dns'
-    - 'tls://1.0.0.1#dns'
-    - 'tls://[2001:4860:4860::8844]#dns'
-    - 'tls://[2606:4700:4700::1001]#dns'
-  proxy-server-nameserver:
-    - https://doh.pub/dns-query
-  nameserver-policy:
-    "geosite:cn,private":
-      - https://doh.pub/dns-query
-      - https://dns.alidns.com/dns-query
+  #nameserver:
      #- 223.5.5.5 # 阿里DNS
      #- 180.76.76.76 # 百度DNS
      #- 119.29.29.29 # 腾讯DNS
@@ -137,19 +80,19 @@ dns:
      #- 114.114.114.114 # 114DNS
      #- https://dns.alidns.com/dns-query # 阿里 DoH DNS
      #- https://doh.360.cn/dns-query # 360 DoH DNS
-   fallback:
-     - 8.8.8.8 # 谷歌DNS
-     - 1.1.1.1 # Cloudflare DNS
-     - tls://dns.rubyfish.cn:853
-     - tls://1.0.0.1:853
-     - tls://dns.google:853
-     - https://dns.rubyfish.cn/dns-query
-     - https://cloudflare-dns.com/dns-query
-     - https://dns.google/dns-query
-   fallback-filter:
-     geoip: true # 默认
-     ipcidr: # 在这个网段内的 IP 地址会被考虑为被污染的 IP
-       - 240.0.0.0/4
+  #fallback:
+     #- 8.8.8.8 # 谷歌DNS
+     #- 1.1.1.1 # Cloudflare DNS
+     #- tls://dns.rubyfish.cn:853
+     #- tls://1.0.0.1:853
+     #- tls://dns.google:853
+     #- https://dns.rubyfish.cn/dns-query
+     #- https://cloudflare-dns.com/dns-query
+     #- https://dns.google/dns-query
+  #fallback-filter:
+     #geoip: true # 默认
+     #ipcidr: # 在这个网段内的 IP 地址会被考虑为被污染的 IP
+       #- 240.0.0.0/4
 
 # 1. clash DNS 请求逻辑：
 #   (1) 当访问一个域名时， nameserver 与 fallback 列表内的所有服务器并发请求，得到域名对应的 IP 地址。
