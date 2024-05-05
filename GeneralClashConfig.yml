@@ -2,6 +2,20 @@
 # 配置文件需要放置在 $HOME/.config/clash/config.yml
 # 或者运行目录下的config.yml
 #---------------------------------------------------#
+
+# 延迟检测 URL
+p:
+  &p {
+    type: http,
+    interval: 3600,
+    health-check:
+      {
+        enable: true,
+        url: https://www.gstatic.com/generate_204,
+        interval: 300,
+      },
+  }
+  
 # 混合端口 HTTP和SOCKS5用一个端口
 mixed-port: 7890
 
