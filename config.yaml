@@ -53,8 +53,8 @@ use: &use
   type: select
   use:
     - 订阅一
-    - 订阅二
-    - 本地配置
+#    - 订阅二
+#    - 本地配置
 
 # 订阅链接
 # 对于订阅来说，path 为选填项，但建议启用
@@ -62,17 +62,17 @@ use: &use
 proxy-providers:
   订阅一:
     <<: *p
-    path: ./proxy_provider/订阅一.yaml
-    url: "https://example.com/airport?type=clashmeta&protocol=shadowsocks&rule=default"
+  #  path: ./proxy_provider/订阅一.yaml
+    url: "https://a.sinoroc.eu.org/api/convert?url=https%3A%2F%2Fmysub.sinoroc.eu.org%2Fsub%3Fhost%3Dmyless.sinoroc.eu.org%26uuid%3D2497fdc5-3df0-41c3-8586-6cc3e83dd9d9%26path%3D%2F%3Fed%3D2560&target=clash"
 
-  订阅二:
-    <<: *p
-    path: ./proxy_provider/订阅二.yaml
-    url: "https://example.com/api/v1/client/subscribe?token=ilovechina"
+#  订阅二:
+#    <<: *p
+  #  path: ./proxy_provider/订阅二.yaml
+#    url: "https://VLESS.fxxk.dedyn.io/auto"
 
-  本地配置:
-    <<: *p
-    path: ./proxy_provider/本地配置.yaml
+#  本地配置:
+   # <<: *p
+  #  path: ./proxy_provider/本地配置.yaml
 
 # 规则订阅
 rule-providers:
@@ -223,7 +223,7 @@ dns:
 #     port: 12993
 #     proxy: 新加坡
 
-proxies:
+# proxies:
   # - name: "WARP"
   #   type: wireguard
   #   server: engage.cloudflareclient.com
@@ -295,7 +295,7 @@ proxy-groups:
   - { name: 其他, <<: *pr }
 
   # 分隔,下面是地区分组
-  - { name: 香港, <<: *use, filter: "(?i)港|hk|hongkong|hong kong" }
+  - { name: 香港, <<: *use, filter: "(?i)港|hk|hongkong|hong kong", type: load-balance, strategy: round-robin }
   - { name: 台湾, <<: *use, filter: "(?i)台|tw|taiwan" }
   - { name: 日本, <<: *use, filter: "(?i)日本|jp|japan" }
   - { name: 美国, <<: *use, filter: "(?i)美|us|unitedstates|united states" }
